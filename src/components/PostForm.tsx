@@ -1,4 +1,22 @@
-import { POST_TYPES, type Post } from "@/types";
+import {
+  PackageSearch,
+  PackageCheck,
+  ShoppingCart,
+  Tag,
+  HelpCircle,
+  CheckCircle2,
+  Send,
+} from "lucide-react";
+import { POST_TYPES, type Post, type PostType } from "@/types";
+
+const TYPE_ICONS: Record<PostType, typeof PackageSearch> = {
+  WCAC: PackageSearch,
+  PCAC: PackageCheck,
+  WCAB: ShoppingCart,
+  PCAB: Tag,
+  LOST: HelpCircle,
+  FOUND: CheckCircle2,
+};
 
 export function PostForm({
   action,
@@ -14,25 +32,31 @@ export function PostForm({
       <div>
         <label className="text-sm font-medium">Type</label>
         <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {POST_TYPES.map((t) => (
-            <label
-              key={t.value}
-              className="flex cursor-pointer flex-col rounded-xl border border-border bg-surface p-3 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary/5"
-            >
-              <span className="flex items-center gap-2 font-bold">
-                <input
-                  type="radio"
-                  name="type"
-                  value={t.value}
-                  required
-                  defaultChecked={defaultValues?.type === t.value}
-                  className="accent-[var(--primary)]"
-                />
-                {t.value}
-              </span>
-              <span className="mt-1 text-xs text-muted">{t.blurb}</span>
-            </label>
-          ))}
+          {POST_TYPES.map((t) => {
+            const Icon = TYPE_ICONS[t.value];
+            return (
+              <label
+                key={t.value}
+                className="flex cursor-pointer flex-col rounded-xl border border-border bg-surface p-3 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary-soft"
+              >
+                <span className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 font-bold">
+                    <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} />
+                    {t.value}
+                  </span>
+                  <input
+                    type="radio"
+                    name="type"
+                    value={t.value}
+                    required
+                    defaultChecked={defaultValues?.type === t.value}
+                    className="accent-[var(--primary)]"
+                  />
+                </span>
+                <span className="mt-1 text-xs text-muted">{t.blurb}</span>
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -96,8 +120,9 @@ export function PostForm({
 
       <button
         type="submit"
-        className="mt-2 rounded-full bg-primary px-4 py-2.5 font-semibold text-primary-foreground hover:opacity-90"
+        className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2.5 font-semibold text-primary-foreground hover:opacity-90"
       >
+        <Send className="h-4 w-4" strokeWidth={2} />
         {submitLabel}
       </button>
     </form>

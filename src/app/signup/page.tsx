@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { UserPlus } from "lucide-react";
 import { signup } from "@/app/actions/auth";
 
 export default async function SignupPage(props: PageProps<"/signup">) {
@@ -7,7 +8,10 @@ export default async function SignupPage(props: PageProps<"/signup">) {
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16">
-      <h1 className="text-2xl font-extrabold">Create an account</h1>
+      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent-foreground">
+        <UserPlus className="h-5 w-5" strokeWidth={1.75} />
+      </span>
+      <h1 className="mt-4 text-2xl font-extrabold">Create an account</h1>
       <p className="mt-1 text-sm text-muted">Join the campus resource pool.</p>
 
       {error && (

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PackageOpen, Reply } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PostCard } from "@/components/PostCard";
 import type { Post } from "@/types";
@@ -39,13 +40,16 @@ export default async function MyPostsPage() {
       </div>
 
       {posts?.length === 0 && (
-        <p className="mt-6 text-sm text-muted">
-          You haven&apos;t posted anything yet.{" "}
-          <Link href="/posts/new" className="font-semibold text-primary">
-            Post a WCAC
-          </Link>
-          .
-        </p>
+        <div className="mt-6 flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border py-10 text-center">
+          <PackageOpen className="h-7 w-7 text-muted" strokeWidth={1.5} />
+          <p className="text-sm text-muted">
+            You haven&apos;t posted anything yet.{" "}
+            <Link href="/posts/new" className="font-semibold text-primary">
+              Post a WCAC
+            </Link>
+            .
+          </p>
+        </div>
       )}
 
       <h2 className="mt-10 text-lg font-bold">Posts I&apos;ve responded to</h2>
@@ -55,7 +59,10 @@ export default async function MyPostsPage() {
         ))}
       </div>
       {respondedPosts.length === 0 && (
-        <p className="mt-3 text-sm text-muted">No responses sent yet.</p>
+        <div className="mt-3 flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border py-10 text-center">
+          <Reply className="h-7 w-7 text-muted" strokeWidth={1.5} />
+          <p className="text-sm text-muted">No responses sent yet.</p>
+        </div>
       )}
     </div>
   );

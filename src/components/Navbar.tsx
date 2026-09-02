@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Repeat2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
 
@@ -11,7 +12,13 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-        <Link href={user ? "/feed" : "/"} className="text-lg font-extrabold tracking-tight text-primary">
+        <Link
+          href={user ? "/feed" : "/"}
+          className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-primary"
+        >
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-soft">
+            <Repeat2 className="h-4 w-4" strokeWidth={2} />
+          </span>
           WCAC<span className="text-foreground">/</span>PCAC
         </Link>
 
