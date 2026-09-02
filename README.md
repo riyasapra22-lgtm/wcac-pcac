@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WCAC PCAC
 
-## Getting Started
+**MICA's digital "kiske paas hai?"**
 
-First, run the development server:
+A hyperlocal campus utility platform for MICA. Students already borrow, lend, buy, sell,
+and report lost/found items over WhatsApp using campus shorthand — **WCAC** (Will Come And
+Collect), **PCAC** (Please Come And Collect), **WCAB** (Will Come And Buy), **PCAB** (Please
+Come And Buy) — plus **LOST** and **FOUND**. WCAC PCAC gives that existing behaviour one
+searchable, organised home instead of a scattered group chat.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Live app:** _add your deployed URL here_
+**Test credentials:** _add a seeded test account here (see "Test account" below)_
+
+## The core flow
+
+1. **Post** something you need (WCAC), have (PCAC), want to buy (WCAB), are selling (PCAB),
+   lost, or found.
+2. Other students **browse the feed**, filter by type, and **respond** to your post.
+3. You (the post owner) **accept a response** — the post is marked **Fulfilled** and the loop
+   closes. This mirrors a classic browse → offer → checkout flow, just in campus language.
+
+## Stack
+
+- **Next.js 16** (App Router, TypeScript, Server Actions, Turbopack)
+- **Tailwind CSS v4**
+- **Supabase** — Postgres database, Row Level Security, and email/password Auth
+- **Vercel** — deployment
+
+## Features
+
+- **Auth** — sign up, log in, log out (Supabase Auth, email/password)
+- **CRUD** — create, read, update, delete posts (`WCAC / PCAC / WCAB / PCAB / LOST / FOUND`)
+- **Core business flow** — browse feed → respond to a post → owner accepts → post fulfilled
+- Filter feed by type, search by title, "My posts" dashboard, close/reopen a post
+
+## Local setup
+
+1. **Clone and install**
+
+   ```bash
+   git clone <this-repo-url>
+   cd wcac-pcac
+   npm install
+   ```
+
+2. **Create a Supabase project** at [supabase.com](https://supabase.com) (free tier).
+
+3. **Run the schema.** In your Supabase project, open **SQL Editor → New query**, paste the
+   contents of [`supabase/schema.sql`](./supabase/schema.sql), and run it. This creates the
+   `profiles`, `posts`, and `responses` tables with Row Level Security policies, plus a
+   trigger that creates a profile row on signup.
+
+4. **Turn off email confirmation** (so signup logs you in immediately — good for a quick
+   demo/reviewer flow): in Supabase, go to **Authentication → Sign In / Providers → Email**
+   and disable "Confirm email".
+
+5. **Copy environment variables.**
+
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+   Fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` from your Supabase
+   project's **Settings → API** page.
+
+6. **Run the dev server**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000).
+
+## Deploying
+
+1. Push this repo to GitHub.
+2. Import it into [Vercel](https://vercel.com) (New Project → select the repo).
+3. Add the two environment variables from `.env.local` in the Vercel project settings.
+4. Deploy. Vercel builds with `next build` automatically.
+
+## Test account
+
+For reviewers: sign up with any email/password (email confirmation is disabled per the setup
+above), or use the seeded account below if one was created:
+
+```
+email:    <fill in>
+password: <fill in>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    actions/       Server Actions (auth, posts, responses)
+    feed/           Browse + filter + search open posts
+    login/, signup/ Auth pages
+    my-posts/       Your posts + posts you've responded to
+    posts/[id]/     Post detail — respond / accept / fulfil
+    posts/new/      Create a post
+  components/       Navbar, PostCard, PostForm, badges
+  lib/supabase/     Browser/server Supabase clients + session refresh
+  types.ts          Shared Post / Response / Profile types
+supabase/schema.sql Database schema + RLS policies
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Known issues / not built (scoped out of the MVP)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Events hub, volunteer requests, hostel-specific feeds, leaderboards/gamification, and
+  community point tallies described in the original concept are not implemented — the MVP
+  focuses on the core WCAC/PCAC/WCAB/PCAB/LOST/FOUND request → response → fulfil loop.
+- No image uploads on posts yet (text-only listings).
+- No in-app messaging — responses are visible on the post page, coordination happens off-app.
