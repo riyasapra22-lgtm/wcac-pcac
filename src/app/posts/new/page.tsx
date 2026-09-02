@@ -15,13 +15,15 @@ export default async function NewPostPage(props: PageProps<"/posts/new">) {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-extrabold">New post</h1>
-      <p className="mt-1 text-sm text-muted">
+      <h1 className="font-display text-4xl uppercase tracking-wide">New post</h1>
+      <p className="mt-1 font-sans text-sm text-muted">
         WCAC something, PCAC something, buy, sell, or flag a lost / found item.
       </p>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+        <p className="mt-4 border-2 border-primary bg-white px-3 py-2 font-sans text-sm text-primary">
+          {error}
+        </p>
       )}
 
       <PostForm action={createPost} submitLabel="Post it" />

@@ -25,10 +25,12 @@ export default async function EditPostPage(props: PageProps<"/posts/[id]/edit">)
 
   return (
     <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-extrabold">Edit post</h1>
+      <h1 className="font-display text-4xl uppercase tracking-wide">Edit post</h1>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+        <p className="mt-4 border-2 border-primary bg-white px-3 py-2 font-sans text-sm text-primary">
+          {error}
+        </p>
       )}
 
       <PostForm action={updatePostWithId} submitLabel="Save changes" defaultValues={typedPost} />

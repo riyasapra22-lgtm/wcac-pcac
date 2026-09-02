@@ -1,7 +1,19 @@
 import Link from "next/link";
-import { Repeat2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
+
+function ReelMark() {
+  return (
+    <span className="flex items-center gap-1">
+      <span className="relative h-5 w-5 rounded-full border-[2.5px] border-foreground">
+        <span className="absolute inset-[5px] rounded-full bg-foreground" />
+      </span>
+      <span className="relative h-5 w-5 rounded-full border-[2.5px] border-foreground">
+        <span className="absolute inset-[5px] rounded-full bg-primary" />
+      </span>
+    </span>
+  );
+}
 
 export async function Navbar() {
   const supabase = await createClient();
@@ -10,20 +22,18 @@ export async function Navbar() {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-10 border-b-2 border-foreground bg-surface">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <Link
           href={user ? "/feed" : "/"}
-          className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-primary"
+          className="flex items-center gap-2 font-display text-2xl uppercase tracking-wide text-foreground"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-soft">
-            <Repeat2 className="h-4 w-4" strokeWidth={2} />
-          </span>
-          WCAC<span className="text-foreground">/</span>PCAC
+          <ReelMark />
+          WCAC<span className="text-primary">/</span>PCAC
         </Link>
 
         {user ? (
-          <nav className="flex items-center gap-4 text-sm font-medium">
+          <nav className="flex items-center gap-5 font-sans text-sm font-medium">
             <Link href="/feed" className="text-foreground/80 hover:text-primary">
               Feed
             </Link>
@@ -34,20 +44,15 @@ export async function Navbar() {
               My posts
             </Link>
             <form action={logout}>
-              <button className="rounded-full border border-border px-3 py-1.5 text-foreground/70 hover:border-primary hover:text-primary">
-                Log out
-              </button>
+              <button className="btn btn-ghost btn-sm">Log out</button>
             </form>
           </nav>
         ) : (
-          <nav className="flex items-center gap-3 text-sm font-medium">
+          <nav className="flex items-center gap-3 font-sans text-sm font-medium">
             <Link href="/login" className="text-foreground/80 hover:text-primary">
               Log in
             </Link>
-            <Link
-              href="/signup"
-              className="rounded-full bg-primary px-4 py-1.5 text-primary-foreground hover:opacity-90"
-            >
+            <Link href="/signup" className="btn btn-primary btn-sm">
               Sign up
             </Link>
           </nav>

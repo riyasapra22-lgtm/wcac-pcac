@@ -1,17 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f1f0ec;
   --surface: #ffffff;
-  --foreground: #1a1d23;
-  --muted: #767c88;
-  --border: #e8e9ec;
-  --primary: #3E6FA6;
-  --primary-soft: #EAF1F9;
+  --foreground: #141414;
+  --muted: #66655d;
+  --line: #d9d7cd;
+  --primary: #d8241c;
   --primary-foreground: #ffffff;
-  --accent: #D9A441;
-  --accent-soft: #FBF1DC;
-  --accent-foreground: #3d2f0f;
 }
 
 @theme inline {
@@ -19,18 +15,124 @@
   --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
-  --color-border: var(--border);
+  --color-border: var(--line);
   --color-primary: var(--primary);
-  --color-primary-soft: var(--primary-soft);
   --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-accent-foreground: var(--accent-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans-raw);
+  --font-display: var(--font-display-raw);
+  --font-mono: var(--font-mono-raw);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* ---------- shared vocabulary: buttons, fields, cards ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--foreground);
+  color: #fff;
+  box-shadow: 6px 6px 0 var(--primary);
+}
+.btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--primary);
+}
+.btn-primary.btn-sm {
+  box-shadow: 4px 4px 0 var(--primary);
+}
+.btn-primary.btn-sm:hover {
+  box-shadow: 5px 5px 0 var(--primary);
+}
+
+.btn-accent {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 6px 6px 0 var(--foreground);
+}
+.btn-accent:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--foreground);
+}
+.btn-accent.btn-sm {
+  box-shadow: 4px 4px 0 var(--foreground);
+}
+.btn-accent.btn-sm:hover {
+  box-shadow: 5px 5px 0 var(--foreground);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--foreground);
+  border: 2px solid var(--foreground);
+}
+.btn-ghost:hover {
+  background: var(--foreground);
+  color: #fff;
+}
+
+.btn-outline-primary {
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline-primary:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+}
+
+.field {
+  width: 100%;
+  border: 2px solid var(--foreground);
+  background: #fff;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.925rem;
+  border-radius: 0;
+  outline: none;
+  color: var(--foreground);
+  transition: border-color 0.12s ease;
+}
+.field:focus {
+  border-color: var(--primary);
+}
+.field::placeholder {
+  color: var(--muted);
+}
+
+.card {
+  background: #fff;
+  border: 2px solid var(--foreground);
+  border-radius: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }

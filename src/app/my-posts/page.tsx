@@ -30,21 +30,23 @@ export default async function MyPostsPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <h1 className="text-2xl font-extrabold">My posts</h1>
-      <p className="mt-1 text-sm text-muted">Everything you&apos;ve posted — edit, close or delete anytime.</p>
+      <h1 className="font-display text-4xl uppercase tracking-wide">My posts</h1>
+      <p className="mt-1 font-sans text-sm text-muted">
+        Everything you&apos;ve posted — edit, close or delete anytime.
+      </p>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {(posts as Post[] | null)?.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
 
       {posts?.length === 0 && (
-        <div className="mt-6 flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border py-10 text-center">
+        <div className="mt-6 flex flex-col items-center gap-2 border-2 border-dashed border-foreground py-10 text-center">
           <PackageOpen className="h-7 w-7 text-muted" strokeWidth={1.5} />
-          <p className="text-sm text-muted">
+          <p className="font-sans text-sm text-muted">
             You haven&apos;t posted anything yet.{" "}
-            <Link href="/posts/new" className="font-semibold text-primary">
+            <Link href="/posts/new" className="font-semibold text-primary underline">
               Post a WCAC
             </Link>
             .
@@ -52,16 +54,18 @@ export default async function MyPostsPage() {
         </div>
       )}
 
-      <h2 className="mt-10 text-lg font-bold">Posts I&apos;ve responded to</h2>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <h2 className="mt-12 font-display text-3xl uppercase tracking-wide">
+        Posts I&apos;ve responded to
+      </h2>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {respondedPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
       {respondedPosts.length === 0 && (
-        <div className="mt-3 flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border py-10 text-center">
+        <div className="mt-3 flex flex-col items-center gap-2 border-2 border-dashed border-foreground py-10 text-center">
           <Reply className="h-7 w-7 text-muted" strokeWidth={1.5} />
-          <p className="text-sm text-muted">No responses sent yet.</p>
+          <p className="font-sans text-sm text-muted">No responses sent yet.</p>
         </div>
       )}
     </div>

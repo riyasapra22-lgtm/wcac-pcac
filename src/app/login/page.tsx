@@ -8,19 +8,21 @@ export default async function LoginPage(props: PageProps<"/login">) {
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-soft text-primary">
-        <LogIn className="h-5 w-5" strokeWidth={1.75} />
+      <span className="flex h-11 w-11 items-center justify-center border-2 border-foreground text-foreground">
+        <LogIn className="h-5 w-5" strokeWidth={2} />
       </span>
-      <h1 className="mt-4 text-2xl font-extrabold">Log in</h1>
-      <p className="mt-1 text-sm text-muted">Welcome back to campus.</p>
+      <h1 className="mt-5 font-display text-4xl uppercase tracking-wide">Log in</h1>
+      <p className="mt-1 font-sans text-sm text-muted">Welcome back to campus.</p>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+        <p className="mt-4 border-2 border-primary bg-white px-3 py-2 font-sans text-sm text-primary">
+          {error}
+        </p>
       )}
 
       <form action={login} className="mt-6 flex flex-col gap-4">
         <div>
-          <label className="text-sm font-medium" htmlFor="email">
+          <label className="font-sans text-sm font-semibold" htmlFor="email">
             Email
           </label>
           <input
@@ -28,12 +30,12 @@ export default async function LoginPage(props: PageProps<"/login">) {
             name="email"
             type="email"
             required
-            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 outline-none focus:border-primary"
+            className="field mt-1"
             placeholder="you@mica.ac.in"
           />
         </div>
         <div>
-          <label className="text-sm font-medium" htmlFor="password">
+          <label className="font-sans text-sm font-semibold" htmlFor="password">
             Password
           </label>
           <input
@@ -41,21 +43,18 @@ export default async function LoginPage(props: PageProps<"/login">) {
             name="password"
             type="password"
             required
-            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 outline-none focus:border-primary"
+            className="field mt-1"
             placeholder="••••••••"
           />
         </div>
-        <button
-          type="submit"
-          className="mt-2 rounded-full bg-primary px-4 py-2.5 font-semibold text-primary-foreground hover:opacity-90"
-        >
+        <button type="submit" className="btn btn-primary mt-2">
           Log in
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-muted">
+      <p className="mt-6 font-sans text-sm text-muted">
         New here?{" "}
-        <Link href="/signup" className="font-semibold text-primary">
+        <Link href="/signup" className="font-semibold text-primary underline">
           Create an account
         </Link>
       </p>

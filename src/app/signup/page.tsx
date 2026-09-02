@@ -8,19 +8,21 @@ export default async function SignupPage(props: PageProps<"/signup">) {
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent-foreground">
-        <UserPlus className="h-5 w-5" strokeWidth={1.75} />
+      <span className="flex h-11 w-11 items-center justify-center bg-primary text-primary-foreground">
+        <UserPlus className="h-5 w-5" strokeWidth={2} />
       </span>
-      <h1 className="mt-4 text-2xl font-extrabold">Create an account</h1>
-      <p className="mt-1 text-sm text-muted">Join the campus resource pool.</p>
+      <h1 className="mt-5 font-display text-4xl uppercase tracking-wide">Create an account</h1>
+      <p className="mt-1 font-sans text-sm text-muted">Join the campus resource pool.</p>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+        <p className="mt-4 border-2 border-primary bg-white px-3 py-2 font-sans text-sm text-primary">
+          {error}
+        </p>
       )}
 
       <form action={signup} className="mt-6 flex flex-col gap-4">
         <div>
-          <label className="text-sm font-medium" htmlFor="fullName">
+          <label className="font-sans text-sm font-semibold" htmlFor="fullName">
             Full name
           </label>
           <input
@@ -28,12 +30,12 @@ export default async function SignupPage(props: PageProps<"/signup">) {
             name="fullName"
             type="text"
             required
-            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 outline-none focus:border-primary"
+            className="field mt-1"
             placeholder="Your name"
           />
         </div>
         <div>
-          <label className="text-sm font-medium" htmlFor="email">
+          <label className="font-sans text-sm font-semibold" htmlFor="email">
             Email
           </label>
           <input
@@ -41,12 +43,12 @@ export default async function SignupPage(props: PageProps<"/signup">) {
             name="email"
             type="email"
             required
-            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 outline-none focus:border-primary"
+            className="field mt-1"
             placeholder="you@mica.ac.in"
           />
         </div>
         <div>
-          <label className="text-sm font-medium" htmlFor="password">
+          <label className="font-sans text-sm font-semibold" htmlFor="password">
             Password
           </label>
           <input
@@ -55,21 +57,18 @@ export default async function SignupPage(props: PageProps<"/signup">) {
             type="password"
             required
             minLength={6}
-            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 outline-none focus:border-primary"
+            className="field mt-1"
             placeholder="At least 6 characters"
           />
         </div>
-        <button
-          type="submit"
-          className="mt-2 rounded-full bg-primary px-4 py-2.5 font-semibold text-primary-foreground hover:opacity-90"
-        >
+        <button type="submit" className="btn btn-accent mt-2">
           Sign up
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-muted">
+      <p className="mt-6 font-sans text-sm text-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-primary">
+        <Link href="/login" className="font-semibold text-primary underline">
           Log in
         </Link>
       </p>
