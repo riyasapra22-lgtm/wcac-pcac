@@ -8,8 +8,8 @@ Collect), **PCAC** (Please Come And Collect), **WCAB** (Will Come And Buy), **PC
 Come And Buy) — plus **LOST** and **FOUND**. WCAC PCAC gives that existing behaviour one
 searchable, organised home instead of a scattered group chat.
 
-**Live app:** _add your deployed URL here_
-**Test credentials:** _add a seeded test account here (see "Test account" below)_
+**Live app:** https://wcac-pcac.vercel.app
+**Test credentials:** see [Test account](#test-account) below
 
 ## The core flow
 
@@ -80,13 +80,23 @@ searchable, organised home instead of a scattered group chat.
 
 ## Test account
 
-For reviewers: sign up with any email/password (email confirmation is disabled per the setup
-above), or use the seeded account below if one was created:
+For reviewers — log in directly with:
 
 ```
-email:    <fill in>
-password: <fill in>
+email:    owner@wcacpcac.test
+password: testpass123
 ```
+
+This account already owns an open PCAC post. To try the full response/accept loop as a
+second user, there's also:
+
+```
+email:    helper@wcacpcac.test
+password: testpass123
+```
+
+You can also sign up with your own email — note that new signups currently require email
+confirmation (see "Known issues" below).
 
 ## Project structure
 
@@ -112,3 +122,5 @@ supabase/schema.sql Database schema + RLS policies
   focuses on the core WCAC/PCAC/WCAB/PCAB/LOST/FOUND request → response → fulfil loop.
 - No image uploads on posts yet (text-only listings).
 - No in-app messaging — responses are visible on the post page, coordination happens off-app.
+- New signups currently require email confirmation via Supabase's default flow; use the
+  seeded test accounts above to skip that step during review.
