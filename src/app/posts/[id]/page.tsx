@@ -140,14 +140,16 @@ export default async function PostDetailPage(props: PageProps<"/posts/[id]">) {
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-semibold">{r.profiles?.full_name ?? "A MICAan"}</span>
-                  {r.accepted && <span className="text-xs font-bold text-accent">ACCEPTED ✓</span>}
+                  {r.accepted && (
+                    <span className="text-xs font-bold text-accent-foreground">ACCEPTED ✓</span>
+                  )}
                 </div>
                 {r.message && <p className="mt-1 text-foreground/90">{r.message}</p>}
 
                 <div className="mt-2 flex gap-2">
                   {isOwner && typedPost.status === "OPEN" && !r.accepted && (
                     <form action={acceptResponseAction}>
-                      <button className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90">
+                      <button className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground hover:opacity-90">
                         Accept & mark fulfilled
                       </button>
                     </form>

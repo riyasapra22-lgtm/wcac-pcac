@@ -46,7 +46,8 @@ create trigger on_auth_user_created
 -- ── posts ───────────────────────────────────────────────────
 create table if not exists posts (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
+  -- references profiles (not auth.users) so PostgREST can embed profiles in posts queries
+  user_id uuid not null references profiles(id) on delete cascade,
   type text not null check (type in ('WCAC','PCAC','WCAB','PCAB','LOST','FOUND')),
   title text not null,
   description text,
@@ -83,7 +84,7 @@ create policy "users can delete their own posts"
 create table if not exists responses (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references posts(id) on delete cascade,
-  user_id uuid not null references auth.users(id) on delete cascade,
+  user_id uuid not null references profiles(id) on delete cascade,
   message text,
   accepted boolean not null default false,
   created_at timestamptz not null default now()
