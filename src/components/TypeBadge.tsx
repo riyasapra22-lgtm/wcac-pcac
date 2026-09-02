@@ -2,7 +2,7 @@ import { ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
 import type { PostType, PostStatus } from "@/types";
 
 // "Need" types are outlined (waiting), "offer" types are filled red (something's ready).
-const NEED_TYPES: PostType[] = ["WCAC", "WCAB", "LOST"];
+const NEED_TYPES: PostType[] = ["WCAC", "WCAB", "LOST", "VOLUNTEER"];
 
 export function TypeBadge({ type }: { type: PostType }) {
   const isNeed = NEED_TYPES.includes(type);

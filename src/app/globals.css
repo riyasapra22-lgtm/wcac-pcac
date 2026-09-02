@@ -128,6 +128,20 @@ body {
   border: 2px solid var(--foreground);
   border-radius: 0;
 }
+/* radio/checkbox "picker" cards (post type, resource mode) — plain .card's own
+   background would otherwise beat the has-[:checked]:bg-primary utility on
+   specificity ties, so the checked state is written here instead. */
+.card:has(:checked) {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.post-form:has(#type-VOLUNTEER:checked) .volunteer-only {
+  display: block;
+}
+.volunteer-only {
+  display: none;
+}
 
 .eyebrow {
   font-family: var(--font-mono);

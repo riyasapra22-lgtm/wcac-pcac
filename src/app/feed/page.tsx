@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, Search, PackageOpen } from "lucide-react";
+import { Plus, Search, PackageOpen, CalendarClock } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PostCard } from "@/components/PostCard";
-import { POST_TYPES, type Post, type PostType } from "@/types";
+import { daysUntilLabel } from "@/lib/dates";
+import { POST_TYPES, type Event, type Post, type PostType } from "@/types";
 
 export default async function FeedPage(props: PageProps<"/feed">) {
   const supabase = await createClient();
@@ -27,6 +28,19 @@ export default async function FeedPage(props: PageProps<"/feed">) {
 
   const { data: posts } = await query;
 
+  const now = new Date();
+  const todayIso = now.toISOString().slice(0, 10);
+  const weekAhead = new Date(now);
+  weekAhead.setDate(weekAhead.getDate() + 7);
+  const weekAheadIso = weekAhead.toISOString().slice(0, 10);
+  const { data: soonEvents } = await supabase
+    .from("events")
+    .select("*, communities(id, name, kind)")
+    .gte("event_date", todayIso)
+    .lte("event_date", weekAheadIso)
+    .order("event_date", { ascending: true })
+    .limit(3);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -36,6 +50,25 @@ export default async function FeedPage(props: PageProps<"/feed">) {
           New post
         </Link>
       </div>
+
+      {soonEvents && soonEvents.length > 0 && (
+        <div className="mt-5 border-2 border-foreground bg-primary p-4 font-sans text-primary-foreground">
+          <p className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase">
+            <CalendarClock className="h-3.5 w-3.5" strokeWidth={2.5} />
+            Coming up this week
+          </p>
+          <ul className="mt-2 flex flex-col gap-1">
+            {(soonEvents as Event[]).map((e) => (
+              <li key={e.id}>
+                <Link href={`/events/${e.id}`} className="underline hover:opacity-80">
+                  {e.title}
+                </Link>{" "}
+                — {e.communities?.name} — {daysUntilLabel(e.event_date)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <form className="mt-6 flex flex-wrap items-center gap-2" method="get">
         <div className="relative min-w-[200px] flex-1">

@@ -23,7 +23,7 @@ export async function Navbar() {
 
   return (
     <header className="sticky top-0 z-10 border-b-2 border-foreground bg-surface">
-      <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
         <Link
           href={user ? "/feed" : "/"}
           className="flex items-center gap-2 font-display text-2xl uppercase tracking-wide text-foreground"
@@ -33,12 +33,21 @@ export async function Navbar() {
         </Link>
 
         {user ? (
-          <nav className="flex items-center gap-5 font-sans text-sm font-medium">
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 font-sans text-sm font-medium">
             <Link href="/feed" className="text-foreground/80 hover:text-primary">
               Feed
             </Link>
-            <Link href="/posts/new" className="text-foreground/80 hover:text-primary">
-              Post
+            <Link href="/resources" className="text-foreground/80 hover:text-primary">
+              Resources
+            </Link>
+            <Link href="/events" className="text-foreground/80 hover:text-primary">
+              Events
+            </Link>
+            <Link href="/communities" className="text-foreground/80 hover:text-primary">
+              Communities
+            </Link>
+            <Link href="/leaderboard" className="text-foreground/80 hover:text-primary">
+              Leaderboard
             </Link>
             <Link href="/my-posts" className="text-foreground/80 hover:text-primary">
               My posts

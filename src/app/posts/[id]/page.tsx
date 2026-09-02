@@ -49,6 +49,8 @@ export default async function PostDetailPage(props: PageProps<"/posts/[id]">) {
 
   const typedResponses = (responses ?? []) as PostResponse[];
   const alreadyResponded = typedResponses.some((r) => r.user_id === user.id);
+  const acceptedCount = typedResponses.filter((r) => r.accepted).length;
+  const isVolunteer = typedPost.type === "VOLUNTEER";
   const createResponseWithId = createResponse.bind(null, id);
   const deletePostWithId = deletePost.bind(null, id);
   const closePostWithId = closePost.bind(null, id);
@@ -75,6 +77,11 @@ export default async function PostDetailPage(props: PageProps<"/posts/[id]">) {
         <h1 className="mt-3 font-display text-3xl uppercase tracking-wide">{typedPost.title}</h1>
         {typedPost.description && (
           <p className="mt-2 font-sans text-foreground/90">{typedPost.description}</p>
+        )}
+        {isVolunteer && typedPost.slots_needed && (
+          <p className="mt-2 font-mono text-xs font-bold uppercase text-primary">
+            {acceptedCount} / {typedPost.slots_needed} people signed up
+          </p>
         )}
         <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-sans text-sm text-muted">
           {typedPost.category && (
@@ -181,7 +188,7 @@ export default async function PostDetailPage(props: PageProps<"/posts/[id]">) {
                     <form action={acceptResponseAction}>
                       <button className="btn btn-accent btn-sm">
                         <CheckCheck className="h-3.5 w-3.5" strokeWidth={2.5} />
-                        Accept & mark fulfilled
+                        {isVolunteer ? "Accept sign-up" : "Accept & mark fulfilled"}
                       </button>
                     </form>
                   )}

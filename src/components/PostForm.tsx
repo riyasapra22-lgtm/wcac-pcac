@@ -5,9 +5,10 @@ import {
   Tag,
   HelpCircle,
   CheckCircle2,
+  Users,
   Send,
 } from "lucide-react";
-import { POST_TYPES, type Post, type PostType } from "@/types";
+import { POST_TYPES, type Community, type Post, type PostType } from "@/types";
 
 const TYPE_ICONS: Record<PostType, typeof PackageSearch> = {
   WCAC: PackageSearch,
@@ -16,19 +17,22 @@ const TYPE_ICONS: Record<PostType, typeof PackageSearch> = {
   PCAB: Tag,
   LOST: HelpCircle,
   FOUND: CheckCircle2,
+  VOLUNTEER: Users,
 };
 
 export function PostForm({
   action,
   submitLabel,
   defaultValues,
+  communities,
 }: {
   action: (formData: FormData) => void | Promise<void>;
   submitLabel: string;
-  defaultValues?: Pick<Post, "type" | "title" | "description" | "category" | "location">;
+  defaultValues?: Pick<Post, "type" | "title" | "description" | "category" | "location" | "slots_needed">;
+  communities?: Community[];
 }) {
   return (
-    <form action={action} className="mt-6 flex flex-col gap-5">
+    <form action={action} className="post-form mt-6 flex flex-col gap-5">
       <div>
         <label className="font-sans text-sm font-semibold">Type</label>
         <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -37,7 +41,7 @@ export function PostForm({
             return (
               <label
                 key={t.value}
-                className="card flex cursor-pointer flex-col p-3 text-sm has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
+                className="card flex cursor-pointer flex-col p-3 text-sm"
               >
                 <span className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 font-display text-lg uppercase tracking-wide">
@@ -45,6 +49,7 @@ export function PostForm({
                     {t.value}
                   </span>
                   <input
+                    id={`type-${t.value}`}
                     type="radio"
                     name="type"
                     value={t.value}
@@ -89,6 +94,24 @@ export function PostForm({
         />
       </div>
 
+      <div className="volunteer-only">
+        <label className="font-sans text-sm font-semibold" htmlFor="slots_needed">
+          People needed
+        </label>
+        <input
+          id="slots_needed"
+          name="slots_needed"
+          type="number"
+          min={1}
+          defaultValue={defaultValues?.slots_needed ?? ""}
+          placeholder="e.g. 5"
+          className="field mt-1"
+        />
+        <p className="mt-1 font-sans text-xs text-muted">
+          The post fulfils once you&apos;ve accepted this many sign-ups.
+        </p>
+      </div>
+
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="font-sans text-sm font-semibold" htmlFor="category">
@@ -117,6 +140,22 @@ export function PostForm({
           />
         </div>
       </div>
+
+      {communities && communities.length > 0 && (
+        <div>
+          <label className="font-sans text-sm font-semibold" htmlFor="community_id">
+            Post to a community feed (optional)
+          </label>
+          <select id="community_id" name="community_id" defaultValue="" className="field mt-1">
+            <option value="">Just the campus feed</option>
+            {communities.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <button type="submit" className="btn btn-accent mt-2">
         <Send className="h-4 w-4" strokeWidth={2} />

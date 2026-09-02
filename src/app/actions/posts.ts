@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { PostType } from "@/types";
 
-const VALID_TYPES: PostType[] = ["WCAC", "PCAC", "WCAB", "PCAB", "LOST", "FOUND"];
+const VALID_TYPES: PostType[] = ["WCAC", "PCAC", "WCAB", "PCAB", "LOST", "FOUND", "VOLUNTEER"];
 
 export async function createPost(formData: FormData) {
   const supabase = await createClient();
@@ -19,9 +19,18 @@ export async function createPost(formData: FormData) {
   const description = String(formData.get("description") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
   const location = String(formData.get("location") ?? "").trim();
+  const slotsNeededRaw = String(formData.get("slots_needed") ?? "").trim();
+  const communityId = String(formData.get("community_id") ?? "").trim();
 
   if (!VALID_TYPES.includes(type as PostType) || !title) {
     redirect(`/posts/new?error=${encodeURIComponent("Pick a type and a title.")}`);
+  }
+
+  const slotsNeeded =
+    type === "VOLUNTEER" && slotsNeededRaw ? Math.max(1, parseInt(slotsNeededRaw, 10) || 1) : null;
+
+  if (type === "VOLUNTEER" && !slotsNeeded) {
+    redirect(`/posts/new?error=${encodeURIComponent("Say how many people you need.")}`);
   }
 
   const { data, error } = await supabase
@@ -33,6 +42,8 @@ export async function createPost(formData: FormData) {
       description: description || null,
       category: category || null,
       location: location || null,
+      slots_needed: slotsNeeded,
+      community_id: communityId || null,
     })
     .select("id")
     .single();
@@ -58,10 +69,14 @@ export async function updatePost(postId: string, formData: FormData) {
   const description = String(formData.get("description") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
   const location = String(formData.get("location") ?? "").trim();
+  const slotsNeededRaw = String(formData.get("slots_needed") ?? "").trim();
 
   if (!VALID_TYPES.includes(type as PostType) || !title) {
     redirect(`/posts/${postId}/edit?error=${encodeURIComponent("Pick a type and a title.")}`);
   }
+
+  const slotsNeeded =
+    type === "VOLUNTEER" && slotsNeededRaw ? Math.max(1, parseInt(slotsNeededRaw, 10) || 1) : null;
 
   const { error } = await supabase
     .from("posts")
@@ -71,6 +86,7 @@ export async function updatePost(postId: string, formData: FormData) {
       description: description || null,
       category: category || null,
       location: location || null,
+      slots_needed: slotsNeeded,
       updated_at: new Date().toISOString(),
     })
     .eq("id", postId)
